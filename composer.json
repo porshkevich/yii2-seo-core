@@ -1,0 +1,21 @@
+{
+    "name": "porshkevich/yii2-seo-core",
+    "description": "Seo Core extension for the Yii2 framework. Control tags and url aliases.",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","seo","url","meta"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir Porshkevich",
+            "email": "neosonic@inbox.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "porshkevich\\seocore\\": ""
+        }
+    }
+}
