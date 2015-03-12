@@ -20,6 +20,7 @@ use Yii;
  * @property string $title
  * @property string $keywords
  * @property string $description
+ * @property boolean $rewrite
  * @property boolean $status
  */
 class UrlMeta extends \yii\db\ActiveRecord
@@ -40,6 +41,10 @@ class UrlMeta extends \yii\db\ActiveRecord
         return [
             [['status'], 'boolean'],
 			[['status'], 'default', 'value'=>1],
+			[['rewrite'], 'default', 'value'=>0],
+			[['title', 'keywords', 'description'], 'require', 'when' => function($model){
+				return $model->rewrite;
+			}],
             [['url', 'title', 'keywords'], 'string', 'max' => 255],
 			[['description'], 'safe'],
         ];
