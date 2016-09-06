@@ -32,3 +32,8 @@ Once the extension is installed, simply use it in your code by  :
 	'class'=>'porshkevich\seocore\SeoCore',
 ]
 ```
+
+And add SEO extension to bootstrap
+```php
+'bootstrap' => ['log', 'seocore']
+```
