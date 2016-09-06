@@ -71,6 +71,6 @@ class UrlMeta extends \yii\db\ActiveRecord
 	 * @return static
 	 */
 	public static function findByUrl($url) {
-		return static::findByCondition(['url'=>$url]);
+		return static::findByCondition(['url'=>$url])->one();
 	}
 }
