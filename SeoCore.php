@@ -48,7 +48,7 @@ class SeoCore extends Component {
 				$view->on(View::EVENT_END_PAGE, [$this, 'viewEndPageHandler']);
 			}
 
-			Yii::$app->urlManager->addRules([['class'=> SeoUrlRule::className()]]);
+			Yii::$app->urlManager->addRules([['class'=> SeoUrlRule::className()]], false);
 		}
 	}
 
