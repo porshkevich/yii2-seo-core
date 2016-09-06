@@ -21,55 +21,50 @@ use Yii;
  * @property string $params
  * @property boolean $status
  */
-class UrlAlias extends \yii\db\ActiveRecord
-{
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%sc_url_alias}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['status'], 'boolean'],
-			[['status'], 'default', 'value'=>1],
-            [['url', 'route'], 'string', 'max' => 255],
-			[['params'], 'safe'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'url' => 'Url',
-            'route' => 'Route',
-            'params' => 'Params',
-            'status' => 'Status',
-        ];
-    }
+class UrlAlias extends \yii\db\ActiveRecord {
 
 	/**
-     * @inheritdoc
-     */
-	public function beforeSave($insert)
-	{
+	 * @inheritdoc
+	 */
+	public static function tableName() {
+		return '{{%sc_url_alias}}';
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function rules() {
+		return [
+			[['status'], 'boolean'],
+			[['status'], 'default', 'value' => 1],
+			[['url', 'route'], 'string', 'max' => 255],
+			[['params'], 'safe'],
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels() {
+		return [
+			'id'	 => 'ID',
+			'url'	 => 'Url',
+			'route'	 => 'Route',
+			'params' => 'Params',
+			'status' => 'Status',
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function beforeSave($insert) {
 		if (parent::beforeSave($insert)) {
 
 			if (is_array($this->params))
-				$this->params = http_build_query ($this->params);
+				$this->params = http_build_query($this->params);
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 
@@ -79,13 +74,13 @@ class UrlAlias extends \yii\db\ActiveRecord
 	 * @param array $params
 	 * @return static
 	 */
-	public static function findByRoute($route, $params)
-	{
-		$routes = static::find()->where(['route'=>$route])->orderBy('params')->all();
+	public static function findByRoute($route, $params) {
+		$routes = static::find()->where(['route' => $route])->orderBy('params')->all();
 
 		function array_compare_assoc($needle, $array) {
-			foreach ( $needle as $key => $value )
-				if (!isset($array[$key]) || $array[$key] !== $value) return false;
+			foreach ($needle as $key => $value)
+				if (!isset($array[$key]) || $array[$key] !== $value)
+					return false;
 			return true;
 		}
 
@@ -95,16 +90,17 @@ class UrlAlias extends \yii\db\ActiveRecord
 			if (!$params || (!$route->params || array_compare_assoc($route->params, $params))) {
 				return $route;
 			}
-		}
-		elseif (count($routes)) {
+		} elseif (count($routes)) {
 			if (!$params && !(reset($routes)->params))
 				return reset($routes);
 			elseif ($params) {
-				foreach ( $routes as $route ) {
+				foreach ($routes as $route) {
 					parse_str($route->params, $route->params);
 				}
-				usort($routes, function($a, $b){return count($b->params)-count($a->params);});
-				foreach ( $routes as $route ) {
+				usort($routes, function($a, $b) {
+					return count($b->params) - count($a->params);
+				});
+				foreach ($routes as $route) {
 					if (array_compare_assoc($route->params, $params))
 						return $route;
 				}
@@ -118,6 +114,7 @@ class UrlAlias extends \yii\db\ActiveRecord
 	 * @return static
 	 */
 	public static function findByUrl($url) {
-		return static::findByCondition(['url'=>$url]);
+		return static::findByCondition(['url' => $url]);
 	}
+
 }
